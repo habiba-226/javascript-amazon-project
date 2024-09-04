@@ -1,5 +1,7 @@
 import {cart, addToCart} from "/scripts/cart.js";
 
+
+
 const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -658,8 +660,40 @@ const products = [
       "apparel",
       "mens"
     ]
+  },  
+  {
+    id: "a5c39b9d-8f1c-43a2-a18f-84e2c6f74e7f",
+    image: "images/products/backpack.jpg",
+    name: "Black School Backpack",
+    rating: {
+      stars: 3,
+      count: 109
+    },
+    priceCents: 5999,
+    keywords: [
+      "backpack",
+      "school",
+      "apparel"
+    ]
+  },
+  {
+    id: "d4e3f7b1-09b8-4a83-b2f4-1b9e5b9fd8a4",
+    image: "images/products/umbrella.jpg",
+    name: "Green and Black Umbrella",
+    rating: {
+      stars: 4,
+      count: 52
+    },
+    priceCents: 1680,
+    keywords: [
+      "umbrella",
+      "rain",
+      "accessories",
+      "apparel"
+    ]
   }
 ];
+
 
 let productsHTML = '';
 
@@ -702,7 +736,7 @@ products.forEach((product) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart">
+      <div class="added-to-cart js-added-to-cart-${product.id}">
         <img src="images/icons/checkmark.png">
         Added
       </div>
@@ -715,7 +749,11 @@ products.forEach((product) => {
   `;
 });
 
+
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+
 
 function updateCart(){
   let cartQuantity = 0;
@@ -725,10 +763,22 @@ function updateCart(){
   document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 }
 
+function addedCheck(productId){
+   const addedMessage = document.querySelector(
+        `.js-added-to-cart-${productId}`);
+  addedMessage.classList.add('added-to-cart-checked');
+
+  setTimeout(() => {
+    addedMessage.classList.remove('added-to-cart-checked');
+  }, 2000);
+}
+
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
+    const {productId} = button.dataset;
     addToCart(productId);
     updateCart();
+    addedCheck(productId);
   });
 });
+
