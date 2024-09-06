@@ -5,13 +5,17 @@ import { formatCurrency } from "../utils/money.js";
 
 export function renderPaymentSummary(){
 
+  let cartQuantity = 0;
   let productPriceCents = 0;
   let shippingPriceCents = 0;
+
 
   cart.forEach(cartItem => {
     const product = getProduct(cartItem.productId);
     productPriceCents += product.priceCents * cartItem.quantity;
 
+    cartQuantity += cartItem.quantity;
+    
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
     shippingPriceCents += deliveryOption.priceCents;
   });
@@ -62,4 +66,6 @@ export function renderPaymentSummary(){
 
   `;
   document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
+
+  document.querySelector('.js-items').innerHTML = `${cartQuantity}`;
 }
